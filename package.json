@@ -1,0 +1,14 @@
+{
+  "name": "pcsleeptimer",
+  "version": "0.1.0",
+  "description": "A sleep timer similar to ones found on TV's for PC.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Hazdryx",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^10.1.2"
+  }
+}
