@@ -5,7 +5,6 @@ const { exec } = require('child_process');
  * @type {BrowserWindow}
  */
 let mainWindow = null;
-
 /**
  * Creates the main window.
  */
@@ -19,23 +18,16 @@ function createMainWindow() {
             nodeIntegration: true,
         }
     });
-    mainWindow.removeMenu();
+    // mainWindow.removeMenu();
     mainWindow.loadFile('views/index.html');
-
-    // Start first tick.
-    tick();
-}
-/**
- * Sends a tick message every second.
- */
-function tick() {
-    mainWindow.webContents.send('tick');
-    setTimeout(tick, 1000);
 }
 
 // Only create window when ready.
 app.whenReady().then(() => {
     createMainWindow();
 });
-// Listen to shutdown channel
-ipcMain.on('shutdown', () => exec('shutdown /s /t 0'));
+
+//
+// Events to listen to.
+//
+ipcMain.on('shutdown', () => console.log('Shutting down...'));
