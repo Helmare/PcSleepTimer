@@ -20,7 +20,7 @@ function createMainWindow() {
         }
     });
     mainWindow.removeMenu();
-    mainWindow.loadFile('index.html');
+    mainWindow.loadFile('views/index.html');
 
     // Start first tick.
     tick();
