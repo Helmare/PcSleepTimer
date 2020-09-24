@@ -40,7 +40,7 @@ class SleepTimer {
      * @returns whether the timer is finished.
      */
     isFinished() {
-        return !this.isActive() && this.timeLeft() <= 0;
+        return this.isActive() && this.timeLeft() <= 0;
     }
 
     /**

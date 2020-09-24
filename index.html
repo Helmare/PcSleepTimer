@@ -4,12 +4,21 @@
     <title>PcSleepTimer</title>
     <!-- Required meta tag for electron. -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div id="time_left">0 minutes</div>
-    <button id="btn_timer">Start Timer</button>
+    <main>
+        <div id="clock">0:00:10</div>
+        <div class="btn-group">
+            <button id="btn_timer_start">Start Timer</button>
+        </div>
+    </main>
 
     <!-- Javascript -->
+    <script src="sleeptimer.js"></script>
     <script src="renderer.js"></script>
 </body>
 </html>
