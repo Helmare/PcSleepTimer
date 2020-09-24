@@ -11,8 +11,16 @@ let mainWindow = null;
 let settings = {
     duration: 1800,
     overtime: 90,
-    process: 'shutdown /s /t 0'
+    process: 'shutdown now'
 };
+
+// Changed default based on OS
+if (process.platform == 'darwin') {
+    settings.process = 'sudo shutdown -h now';
+}
+else if (process.platform == 'win32') {
+    settings.process = 'shutdown /s /t 0';
+}
 
 //
 // Events to listen to.
