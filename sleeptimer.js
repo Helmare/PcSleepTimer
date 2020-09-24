@@ -32,7 +32,7 @@ class SleepTimer {
      */
     timeLeft() {
         if (this.isActive())
-            return this.millis - (new Date().getTime() - this.startTime);
+            return (this.millis - (new Date().getTime() - this.startTime)) / 1000;
         else
             return -1;
     }
