@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const { exec } = require('child_process');
 
 /**
@@ -31,3 +31,16 @@ app.whenReady().then(() => {
 // Events to listen to.
 //
 ipcMain.on('shutdown', () => console.log('Shutting down...'));
+ipcMain.on('over', () => {
+    mainWindow.restore();
+    
+    // Center on main screen.
+    let display = screen.getPrimaryDisplay();
+    let bounds = display.bounds;
+    let size = mainWindow.getSize();
+
+    mainWindow.setPosition(0, 0);
+    mainWindow.setPosition(bounds.x + (bounds.width - size[0]) / 2, bounds.y + (bounds.height - size[1]) / 2);
+
+    mainWindow.moveTop();
+});

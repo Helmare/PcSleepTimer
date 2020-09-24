@@ -7,8 +7,11 @@ class SleepTimer extends EventTarget {
         super();
 
         this.millis = 10000;
+        this.overMillis = 5000;
         this.startTime = -1;
+
         this._worker = null;
+        this._triggeredOver = false;
     }
 
     /**
@@ -21,6 +24,18 @@ class SleepTimer extends EventTarget {
         }
         else {
             this.millis = seconds * 1000;
+        }
+    }
+    /**
+     * Gets or sets the duration of overtime in seconds.
+     * @param {number} seconds 
+     */
+    overtime(seconds) {
+        if (seconds === undefined) {
+            return this.overMillis / 1000;
+        }
+        else {
+            this.overMillis = seconds * 1000;
         }
     }
     /**
@@ -40,10 +55,16 @@ class SleepTimer extends EventTarget {
             return false;
     }
     /**
+     * @returns wether the time is in overtime.
+     */
+    isOver() {
+        return this.isActive() && this.timeLeft() <= 0;
+    }
+    /**
      * @returns whether the timer is finished.
      */
     isFinished() {
-        return this.isActive() && this.timeLeft() <= 0;
+        return this.isActive() && this.timeLeft() <= -this.overtime();
     }
 
     /**
@@ -68,7 +89,11 @@ class SleepTimer extends EventTarget {
      * Called when the worker ticks.
      */
     tick() {
-        if (this.isFinished()) {
+        if (this.isOver() && !this._triggeredOver) {
+            this.dispatchEvent(new SleepTimerEvent('over', this));
+            this._triggeredOver = true;
+        }
+        else if (this.isFinished()) {
             let event = new SleepTimerEvent('finished', this, true);
             this.dispatchEvent(event);
             if (!event.defaultPrevented) {
@@ -83,6 +108,7 @@ class SleepTimer extends EventTarget {
      */
     reset() {
         if (!this.isActive()) return;
+        this._triggeredOver = false;
         this.startTime = new Date().getTime();
 
         this.dispatchEvent(new SleepTimerEvent('reset', this));
@@ -95,6 +121,7 @@ class SleepTimer extends EventTarget {
 
         this._worker.terminate();
         this._worker = null;
+        this._triggeredOver = false;
         this.startTime = -1;
 
         this.dispatchEvent(new SleepTimerEvent('stop', this));

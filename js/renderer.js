@@ -1,7 +1,7 @@
 /*
  * The core PcSleepTimer javascript file for the renderer.
  */
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, ipcMain } = require('electron');
 
 // Grab elements
 let lblClock = document.querySelector('#clock');
@@ -21,7 +21,6 @@ timer.duration(10);
 timer.addEventListener('tick', refresh);
 timer.addEventListener('reset', refresh);
 timer.addEventListener('start', () => {
-    console.log("HELLO");
     btnGroupStart.classList.add('hidden');
     btnGroupRunning.classList.remove('hidden');
     refresh();
@@ -31,6 +30,7 @@ timer.addEventListener('stop', () => {
     btnGroupRunning.classList.add('hidden');
     refresh();
 });
+timer.addEventListener('over', () => ipcRenderer.send('over'));
 timer.addEventListener('finished', () => ipcRenderer.send('shutdown'));
 
 // Add element events
@@ -53,14 +53,21 @@ function refresh() {
  */
 function setClock(seconds) {
     let negative = seconds < 0;
-    seconds = Math.floor(Math.abs(seconds));
+    seconds = Math.abs(seconds);
+    seconds = negative ? Math.ceil(seconds) : Math.floor(seconds);
 
     let hours = Math.floor(seconds / 3600);
     seconds = seconds - hours * 3600;
     let minutes = Math.floor(seconds / 60);
     seconds = seconds - minutes * 60;
     
-    lblClock.innerText = (negative ? '-' : '') + hours + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
+    if (negative) {
+        lblClock.classList.add('negative');
+    }
+    else {
+        lblClock.classList.remove('negative');
+    }
+    lblClock.innerText = hours + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
 }
 /**
  * Pads a number until it reaches the length with leading zeros.
