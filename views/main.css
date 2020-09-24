@@ -24,12 +24,17 @@ body {
     position: absolute;
     bottom: 3em;
     width: 100%;
+
+    transition: bottom 500ms, opacity 250ms;
 }
 .btn-group > button {
     margin: 1em auto 1em auto;
 }
-.hidden {
-    display: none;
+.btn-group.hidden {
+    bottom: -10em;
+    opacity: 0;
+
+    transition: bottom 500ms, opacity 100ms;
 }
 
 button {
@@ -48,13 +53,13 @@ button {
 
     color:#85F;
 
-    transition: background-color 250ms;
+    transition: background-color 100ms, color 100ms;
 }
 button:hover {
     background-color: #85F;
     color: white;
 
-    transition: background-color 250ms;
+    transition: background-color 100ms, color 100ms;
 }
 button:active {
     border-color: rgb(148, 102, 255);
