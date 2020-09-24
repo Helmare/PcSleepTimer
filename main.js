@@ -9,15 +9,15 @@ const SETTINGS_FILE_PATH = 'settings.json';
  */
 let mainWindow = null;
 let settings = {
-    duration: 30,
-    overtime: 10,
-    process: 'shutdown /t /s 0'
+    duration: 1800,
+    overtime: 90,
+    process: 'shutdown /s /t 0'
 };
 
 //
 // Events to listen to.
 //
-ipcMain.on('shutdown', () => console.log('Executing: ' + settings.process));
+ipcMain.on('shutdown', () => exec(settings.process));
 ipcMain.on('over', () => {
     mainWindow.flashFrame(true);
     mainWindow.restore();
@@ -50,7 +50,7 @@ app.whenReady().then(() => {
             nodeIntegration: true,
         }
     });
-    // mainWindow.removeMenu();
+    mainWindow.removeMenu();
     mainWindow.loadFile('views/index.html');
     mainWindow.on('focus', () => mainWindow.flashFrame(false));
 });
