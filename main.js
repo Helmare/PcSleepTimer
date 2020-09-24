@@ -36,7 +36,7 @@ ipcMain.on('load-settings', () => {
 // Saves new settings to the settings.json file.
 ipcMain.on('save-settings', (e, data) => {
     Object.assign(settings, data);
-    fs.writeFileSync(SETTINGS_FILE_PATH, JSON.stringify(data, null, 4));
+    fs.writeFileSync(SETTINGS_FILE_PATH, JSON.stringify(settings, null, 4));
 });
 
 // Creates the window when the app is ready.
