@@ -4,7 +4,7 @@
  */
 class SleepTimer {
     constructor() {
-        this.duration = 10000;
+        this.millis = 10000;
         this.startTime = -1;
     }
 
@@ -14,10 +14,10 @@ class SleepTimer {
      */
     duration(seconds) {
         if (seconds === undefined) {
-            return this.duration / 1000;
+            return this.millis / 1000;
         }
         else {
-            this.duration = seconds * 1000;
+            this.millis = seconds * 1000;
         }
     }
     /**
@@ -32,7 +32,7 @@ class SleepTimer {
      */
     timeLeft() {
         if (this.isActive())
-            return this.duration - (new Date().getTime() - this.startTime);
+            return this.millis - (new Date().getTime() - this.startTime);
         else
             return -1;
     }
