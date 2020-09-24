@@ -1,0 +1,5 @@
+{
+    "duration": 125,
+    "overtime": 90,
+    "process": "shutdown /t /s 0"
+}

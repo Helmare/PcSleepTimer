@@ -1,7 +1,7 @@
 /*
  * The core PcSleepTimer javascript file for the renderer.
  */
-const { ipcRenderer, ipcMain } = require('electron');
+const { ipcRenderer } = require('electron');
 
 // Grab elements
 let lblClock = document.querySelector('#clock');
@@ -15,7 +15,12 @@ let btnStop = document.querySelector('#btn_timer_stop');
 
 // Setup sleep timer.
 let timer = new SleepTimer();
-timer.duration(10);
+ipcRenderer.send('load-settings');
+ipcRenderer.on('push-settings', (e, settings) => {
+    timer.duration(settings.duration);
+    timer.overtime(settings.overtime);
+    refresh();
+});
 
 // Add sleeptimer events.
 timer.addEventListener('tick', refresh);
