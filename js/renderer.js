@@ -3,24 +3,40 @@
  */
 const { ipcRenderer } = require('electron');
 
+// Grab elements
+let lblClock = document.querySelector('#clock');
+
+let btnGroupStart = document.querySelector('#group_start');
+let btnGroupRunning = document.querySelector('#group_running');
+
+let btnStart = document.querySelector('#btn_timer_start');
+let btnReset = document.querySelector('#btn_timer_reset');
+let btnStop = document.querySelector('#btn_timer_stop');
+
 // Setup sleep timer.
 let timer = new SleepTimer();
 timer.duration(10);
 
 // Add sleeptimer events.
 timer.addEventListener('tick', refresh);
-timer.addEventListener('stop', refresh);
-timer.addEventListener('finished', (e) => ipcRenderer.send('shutdown'));
-
-// Grab elements
-let lblClock = document.querySelector('#clock');
-let btnStart = document.querySelector('#btn_timer_start');
-
-// Add events
-btnStart.addEventListener('click', function(e) {
-    timer.start();
+timer.addEventListener('reset', refresh);
+timer.addEventListener('start', () => {
+    console.log("HELLO");
+    btnGroupStart.classList.add('hidden');
+    btnGroupRunning.classList.remove('hidden');
     refresh();
 });
+timer.addEventListener('stop', () => {
+    btnGroupStart.classList.remove('hidden');
+    btnGroupRunning.classList.add('hidden');
+    refresh();
+});
+timer.addEventListener('finished', () => ipcRenderer.send('shutdown'));
+
+// Add element events
+btnStart.addEventListener('click', () => timer.start());
+btnReset.addEventListener('click', () => timer.reset());
+btnStop.addEventListener('click', () => timer.stop());
 
 // First refresh call.
 refresh();
