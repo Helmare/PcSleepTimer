@@ -7,19 +7,6 @@ body {
     color: white;
 }
 
-#clock {
-    margin-top: 15rem;
-
-    text-align: center;
-    font-size: 8em;
-    font-weight: bold;
-    transition: color 100ms;
-}
-#clock.negative {
-    color: rgb(255, 102, 102);
-    transition: color 500ms;
-}
-
 .btn-group {
     position: absolute;
     bottom: 3em;

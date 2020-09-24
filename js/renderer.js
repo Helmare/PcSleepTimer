@@ -4,7 +4,13 @@
 const { ipcRenderer } = require('electron');
 
 // Grab elements
-let lblClock = document.querySelector('#clock');
+let clock = new Clock('#clock');
+clock.addEventListener('input', (e) => {
+    timer.duration(e.duration);
+    ipcRenderer.send('save-settings', {
+        duration: e.duration
+    });
+});
 
 let btnGroupStart = document.querySelector('#group_start');
 let btnGroupRunning = document.querySelector('#group_running');
@@ -28,11 +34,13 @@ timer.addEventListener('reset', refresh);
 timer.addEventListener('start', () => {
     btnGroupStart.classList.add('hidden');
     btnGroupRunning.classList.remove('hidden');
+    clock.setReadonly(true);
     refresh();
 });
 timer.addEventListener('stop', () => {
     btnGroupStart.classList.remove('hidden');
     btnGroupRunning.classList.add('hidden');
+    clock.setReadonly(false);
     refresh();
 });
 timer.addEventListener('over', () => ipcRenderer.send('over'));
@@ -50,39 +58,5 @@ refresh();
  * Called for updating the UI and checking the timer.
  */
 function refresh() {
-    setClock(timer.isActive() ? timer.timeLeft() : timer.duration());
-}
-/**
- * Set the clock to a set number of seconds.
- * @param {number} seconds 
- */
-function setClock(seconds) {
-    let negative = seconds < 0;
-    seconds = Math.abs(seconds);
-    seconds = negative ? Math.ceil(seconds) : Math.floor(seconds);
-
-    let hours = Math.floor(seconds / 3600);
-    seconds = seconds - hours * 3600;
-    let minutes = Math.floor(seconds / 60);
-    seconds = seconds - minutes * 60;
-    
-    if (negative) {
-        lblClock.classList.add('negative');
-    }
-    else {
-        lblClock.classList.remove('negative');
-    }
-    lblClock.innerText = hours + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
-}
-/**
- * Pads a number until it reaches the length with leading zeros.
- * @param {number} num 
- * @param {number} length 
- */
-function pad(num, length) {
-    let str = num + '';
-    while (str.length < length) {
-        str = '0' + str;
-    }
-    return str;
+    clock.set(timer.isActive() ? timer.timeLeft() : timer.duration());
 }

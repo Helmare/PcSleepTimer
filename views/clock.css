@@ -1,0 +1,21 @@
+#clock {
+    width: 100%;
+    margin-top: 15rem;
+
+    text-align: center;
+    font-size: 8em;
+    font-weight: bold;
+
+    background: none;
+    outline: none;
+    border: none;
+    color: white;
+    transition: color 100ms;
+}
+#clock[readonly="true"] {
+    cursor: default;
+}
+#clock.negative {
+    color: rgb(255, 102, 102);
+    transition: color 500ms;
+}
