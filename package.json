@@ -4,11 +4,17 @@
   "description": "A sleep timer similar to ones found on TV's for PC.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-win": "electron-builder build --windows"
   },
   "author": "Hazdryx",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^10.1.2"
+    "electron": "^10.1.2",
+    "electron-builder": "^22.8.1"
+  },
+  "build": {
+    "appId": "com.hazdryx.pcsleeptimer",
+    "productName": "PcSleepTimer"
   }
 }
