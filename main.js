@@ -30,7 +30,12 @@ ipcMain.on('over', () => {
     mainWindow.flashFrame(true);
     mainWindow.restore();
     mainWindow.center();
-    mainWindow.moveTop();
+    mainWindow.setAlwaysOnTop(true, 'screen-saver');
+    mainWindow.setFullScreen(true);
+});
+ipcMain.on('reset-window', () => {
+    mainWindow.setAlwaysOnTop(false);
+    mainWindow.setFullScreen(false);
 });
 
 // Loads settings and pushes them to the renderer.
@@ -59,6 +64,11 @@ app.whenReady().then(() => {
         }
     });
     mainWindow.removeMenu();
+    mainWindow.setVisibleOnAllWorkspaces(true, {
+        visibleOnFullScreen: true
+    });
     mainWindow.loadFile('views/index.html');
-    mainWindow.on('focus', () => mainWindow.flashFrame(false));
+    mainWindow.on('focus', () => {
+        mainWindow.flashFrame(false);
+    });
 });

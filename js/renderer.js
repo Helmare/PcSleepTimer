@@ -30,7 +30,10 @@ ipcRenderer.on('push-settings', (e, settings) => {
 
 // Add sleeptimer events.
 timer.addEventListener('tick', refresh);
-timer.addEventListener('reset', refresh);
+timer.addEventListener('reset', () => { 
+    ipcRenderer.send('reset-window');
+    refresh();
+});
 timer.addEventListener('start', () => {
     btnGroupStart.classList.add('hidden');
     btnGroupRunning.classList.remove('hidden');
@@ -41,6 +44,9 @@ timer.addEventListener('stop', () => {
     btnGroupStart.classList.remove('hidden');
     btnGroupRunning.classList.add('hidden');
     clock.setReadonly(false);
+
+    ipcRenderer.send('reset-window');
+
     refresh();
 });
 timer.addEventListener('over', () => ipcRenderer.send('over'));
