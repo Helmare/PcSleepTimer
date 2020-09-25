@@ -58,6 +58,8 @@ app.whenReady().then(() => {
         width: 540,
         height: 960,
         resizable: false,
+        
+        icon: 'assets/icon.png',
 
         webPreferences: {
             nodeIntegration: true,
