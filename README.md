@@ -12,3 +12,5 @@ There are two ways to get a copy of PcSleepTimer: Download the latest release un
 5. Run command ```electron-builder build --windows```
 
 The app files will be built in the ```dist``` folder. If you need to build for other operating systems, replace ```--windows``` with your OS specific flag (Linux: ```--linux```, Mac: ```--mac```). Other OS flags can be found [here](https://www.electron.build/cli).
+
+**Note: This has not been tested on linux or mac. Any contribution on that front will be greatly appriciated!**
