@@ -14,3 +14,13 @@ There are two ways to get a copy of PcSleepTimer: Download the latest release un
 The app files will be built in the ```dist``` folder. If you need to build for other operating systems, replace ```--windows``` with your OS specific flag (Linux: ```--linux```, Mac: ```--mac```). Other OS flags can be found [here](https://www.electron.build/cli).
 
 **Note: This has not been tested on linux or mac. Any contribution on that front will be greatly appriciated!**
+
+## Settings
+After you run PcSleepTimer for the first time it will create a ```settings.json``` file. You can change all the settings int this file, but the app must be restarted for them to take affect.
+
+| Setting        | Description                                                       |
+|----------------|-------------------------------------------------------------------|
+|```duration```  |Duration of the sleep timer.                                       |
+|```overtime```  |Duration of the overtime period.                                   |
+|```fullscreen```|Whether the app will switch to fullscreen duration overtime.       |
+|```process```   |The process that will run if the timer is not reset after overtime.|
