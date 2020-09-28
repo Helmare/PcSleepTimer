@@ -14,6 +14,25 @@ let settings = {
     fullscreen: true,
     process: 'shutdown now'
 };
+/**
+ * Loads the settings from a json file.
+ */
+function loadSettings() {
+    if (fs.existsSync(SETTINGS_FILE_PATH)) {
+        let raw = fs.readFileSync(SETTINGS_FILE_PATH);
+        Object.assign(settings, JSON.parse(raw));
+    }
+}
+/**
+ * Saves the settings to a json file.
+ * @param {object} data - Data to be merged with the current settings.
+ */
+function saveSettings(data) {
+    if (typeof(data) == 'object') {
+        Object.assign(settings, data);
+    }
+    fs.writeFileSync(SETTINGS_FILE_PATH, JSON.stringify(settings, null, 4));
+}
 
 // Changed default based on OS
 if (process.platform == 'darwin') {
@@ -32,7 +51,7 @@ ipcMain.on('over', () => {
     mainWindow.restore();
     mainWindow.center();
     mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    
+
     if (settings.fullscreen) { 
         mainWindow.setFullScreen(true);
     }
@@ -44,16 +63,15 @@ ipcMain.on('reset-window', () => {
 
 // Loads settings and pushes them to the renderer.
 ipcMain.on('load-settings', () => {
-    if (fs.existsSync(SETTINGS_FILE_PATH)) {
-        let raw = fs.readFileSync(SETTINGS_FILE_PATH);
-        Object.assign(settings, JSON.parse(raw));
-    }
+    loadSettings(); // Load the settings.
+    saveSettings(); // Save the settings so the file has an updated copy.
+
+    //  Push settings to renderer.
     mainWindow.webContents.send('push-settings', settings);
 });
 // Saves new settings to the settings.json file.
 ipcMain.on('save-settings', (e, data) => {
-    Object.assign(settings, data);
-    fs.writeFileSync(SETTINGS_FILE_PATH, JSON.stringify(settings, null, 4));
+    saveSettings(data);
 });
 
 // Creates the window when the app is ready.
@@ -69,12 +87,16 @@ app.whenReady().then(() => {
             nodeIntegration: true,
         }
     });
-    mainWindow.removeMenu();
+    // Forces alwaysOnTop to be above fullscreen apps.
     mainWindow.setVisibleOnAllWorkspaces(true, {
         visibleOnFullScreen: true
     });
-    mainWindow.loadFile('views/index.html');
+
+    // Stop flash frame.
     mainWindow.on('focus', () => {
         mainWindow.flashFrame(false);
     });
+
+    mainWindow.removeMenu();
+    mainWindow.loadFile('views/index.html');
 });
