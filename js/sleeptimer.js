@@ -145,3 +145,11 @@ class SleepTimerEvent extends Event {
         this.sleepTimer = sleepTimer;
     }
 }
+
+/**
+ * Exports all the classes.
+ */
+module.exports = {
+    SleepTimer,
+    SleepTimerEvent
+};

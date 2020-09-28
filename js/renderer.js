@@ -2,6 +2,8 @@
  * The core PcSleepTimer javascript file for the renderer.
  */
 const { ipcRenderer } = require('electron');
+const { Clock } = require('./../js/clock');
+const { SleepTimer } = require('./../js/sleeptimer');
 
 // Grab elements
 let clock = new Clock('#clock');

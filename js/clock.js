@@ -104,3 +104,11 @@ class ClockInputEvent extends Event {
         this.duration = duration;
     }
 }
+
+/**
+ * Exports the two classes.
+ */
+module.exports = {
+    Clock,
+    ClockInputEvent
+}
