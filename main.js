@@ -11,6 +11,7 @@ let mainWindow = null;
 let settings = {
     duration: 1800,
     overtime: 90,
+    fullscreen: true,
     process: 'shutdown now'
 };
 
@@ -31,7 +32,10 @@ ipcMain.on('over', () => {
     mainWindow.restore();
     mainWindow.center();
     mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    mainWindow.setFullScreen(true);
+    
+    if (settings.fullscreen) { 
+        mainWindow.setFullScreen(true);
+    }
 });
 ipcMain.on('reset-window', () => {
     mainWindow.setAlwaysOnTop(false);

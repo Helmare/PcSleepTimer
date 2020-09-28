@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add sleeptimer events.
     timer.addEventListener('tick', refresh);
+
     timer.addEventListener('reset', () => { 
         ipcRenderer.send('reset-window');
         refresh();
@@ -69,5 +70,4 @@ document.addEventListener('DOMContentLoaded', () => {
     function refresh() {
         clock.set(timer.isActive() ? timer.timeLeft() : timer.duration());
     }
-
 });
