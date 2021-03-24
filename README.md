@@ -1,5 +1,5 @@
 # Welcome To The PcSleepTimer App!
-PcSleepTimer is a native app for Windows, Linux, and Mac, which gives your PC a sleep timer similar to the ones found in your TV. You can setup your own duration and the process that is ran once the time is up (default is the shutdown command for the OS).
+PcSleepTimer is an app for Windows, Mac, and Linux that’s just like the sleep timer on your TV but for your PC. After a specified duration, the app will ask if you’re still awake. If not, it will run a process, which is PC shutdown by default. This is useful for people who use their PC for consuming media, such as music or video, before going to bed. With this app, you’ll no longer have your PC running needlessly through the night, and you’ll no longer have to remember where you left off in a TV show before falling asleep.
 
 ## How Do I Get It?
 There are two ways to get a copy of PcSleepTimer: Download the latest release under the release tab (windows only), or compile from source.
